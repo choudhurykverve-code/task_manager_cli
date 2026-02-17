@@ -23,7 +23,7 @@ class JsonStorage:
         try:
 
             with open(self.filepath,'r') as f:
-                
+
                 data = json.load(f)
                 tasks = [Task.from_dict(item) for item in data]
 

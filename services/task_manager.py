@@ -54,4 +54,8 @@ class TaskManager:
 
         self._save()
 
+    def get_all_tasks(self):
+        return list(self.tasks.values())
+
+
         
