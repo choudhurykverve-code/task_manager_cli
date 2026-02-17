@@ -1,7 +1,6 @@
 import uuid
 from models.enum import Status,Priority
 from datetime import datetime,timezone
-from enum import Enum
 
 class Task:
     def __init__(self,title,description=None,priority=Priority.MEDIUM):
@@ -85,6 +84,4 @@ class Task:
             else None
         )
 
-        return task
-
-    
+        return task   
