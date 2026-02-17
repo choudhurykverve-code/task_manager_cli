@@ -20,6 +20,31 @@ class Task:
         self._updated_at = self._created_at
         self._completed_at = None
 
+    @property   
+    def id(self):
+        return str(self._id)
+    
+    @property    
+    def status(self):
+        return self._status
+    
+    @property    
+    def priority(self):
+        return self._priority
+    
+    @property    
+    def created_at(self):
+        return self._created_at
+    
+    @property
+    def completed_at(self):
+        return self._completed_at.isoformat() if self._completed_at else None
+    
+    @property
+    def is_completed(self):
+        return self._status == Status.COMPLETED
+
+
 
     def mark_completed(self):
 
