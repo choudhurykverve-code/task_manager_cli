@@ -76,7 +76,8 @@ def main():
     elif args.command == "get":
 
         try:
-            print(f"{task.priority.value}  {task.status.value}")
+            task = manager.get_task(args.task_id)
+            print(f"\n{task.priority.value}  {task.status.value}")
             print(f"📌 {task.title}")
             print(f"🆔 {task.id}")
             print(f"{task.description}")
@@ -93,7 +94,7 @@ def main():
               tasks.sort(key=lambda x:x.priority.value)
 
               for task in tasks:
-                print(f"{task.priority.value}  {task.status.value}")
+                print(f"\n{task.priority.value}  {task.status.value}")
                 print(f"📌 {task.title}")
                 print(f"🆔 {task.id}")
                 print(f"{task.description}")
@@ -103,7 +104,7 @@ def main():
              tasks.sort(key=lambda x:x.created_at)
 
              for task in tasks:
-                print(f"{task.priority.value}  {task.status.value}")
+                print(f"\n{task.priority.value}  {task.status.value}")
                 print(f"📌 {task.title}")
                 print(f"🆔 {task.id}")
                 print(f"{task.description}")
@@ -122,7 +123,7 @@ def main():
             
 
             for task in filtered_tasks:
-                print(f"{task.priority.value}  {task.status.value}")
+                print(f"\n{task.priority.value}  {task.status.value}")
                 print(f"📌 {task.title}")
                 print(f"🆔 {task.id}")
                 print(f"{task.description}")
@@ -132,7 +133,7 @@ def main():
             filtered_tasks = [task for task in tasks if task.status.value == "✅ completed"]
 
             for task in filtered_tasks:
-                print(f"{task.priority.value}  {task.status.value}")
+                print(f"\n{task.priority.value}  {task.status.value}")
                 print(f"📌 {task.title}")
                 print(f"🆔 {task.id}")
                 print(f"{task.description}")
@@ -148,7 +149,7 @@ def main():
             print("📋 No tasks found.")
 
         for task in tasks:
-            print(f"{task.priority.value}  {task.status.value}")
+            print(f"\n{task.priority.value}  {task.status.value}")
             print(f"📌 {task.title}")
             print(f"🆔 {task.id}")
             print(f"{task.description}")

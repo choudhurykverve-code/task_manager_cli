@@ -7,7 +7,7 @@
         "priority": "HIGH",
         "created_at": "2026-02-18T05:51:09.195592+00:00",
         "updated_at": "2026-02-18T05:51:09.195592+00:00",
-        "completed_at": null   
+        "completed_at": null
     },
     {
         "id": "bc56cb85-3dbf-41d0-86f3-0eeb9364092c",
@@ -57,6 +57,16 @@
         "priority": "LOW",
         "created_at": "2026-02-18T07:19:01.014691+00:00",
         "updated_at": "2026-02-18T07:19:01.014691+00:00",
+        "completed_at": null
+    },
+    {
+        "id": "33dca8ef-5373-4601-b265-a62abc55a1cb",
+        "title": "Reading Book",
+        "description": "reading science friction book",
+        "status": "PENDING",
+        "priority": "HIGH",
+        "created_at": "2026-02-18T09:45:47.229852+00:00",
+        "updated_at": "2026-02-18T10:03:28.529834+00:00",
         "completed_at": null
     }
 ]
