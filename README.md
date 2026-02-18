@@ -85,7 +85,7 @@ python task_cli.py --help
 ### ✅ Add Task
 
 ```
-python task_cli.py add "Build CLI tool" --description "Using argparse" --priority HIGH
+python task_cli.py add --title "Build CLI tool" --description "Using argparse" --priority high
 ```
 
 ---
@@ -117,7 +117,16 @@ python task_cli.py complete <task_id>
 ### ✅ Update Task
 
 ```
-python task_cli.py update <task_id> --title "New Title" --priority LOW
+python task_cli.py update <task_id> --title "New Title" --description "New description" --priority low
+```
+```
+python task_cli.py update <task_id> --title "New Title only"
+```
+```
+python task_cli.py update <task_id> --description "New description only" 
+```
+```
+python task_cli.py update <task_id> --priority medium
 ```
 
 ---
@@ -136,12 +145,17 @@ python task_cli.py delete <task_id>
 python task_cli.py status_filter pending
 ```
 
+
 ---
 
-### ✅ Sort by Priority
+### ✅ Sort by Priority or created_at
 
 ```
-python task_cli.py list --sort priority
+python task_cli.py sort priority
+```
+
+```
+python task_cli.py sort created_at
 ```
 
 ---
