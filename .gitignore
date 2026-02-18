@@ -10,4 +10,4 @@ __pycache__/
 *.pyc
 
 # Data 
-data/
+data/tasks.json
