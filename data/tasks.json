@@ -1,0 +1,62 @@
+[
+    {
+        "id": "732d60f8-a401-4425-b69b-53ee0310e605",
+        "title": "Build argparse CLI",
+        "description": "Create commands for add, delete, update, complete",
+        "status": "PENDING",
+        "priority": "HIGH",
+        "created_at": "2026-02-18T05:51:09.195592+00:00",
+        "updated_at": "2026-02-18T05:51:09.195592+00:00",
+        "completed_at": null   
+    },
+    {
+        "id": "bc56cb85-3dbf-41d0-86f3-0eeb9364092c",
+        "title": "Implemented JSON storage layer",
+        "description": "Ensure tasks survive program restart",
+        "status": "PENDING",
+        "priority": "MEDIUM",
+        "created_at": "2026-02-18T05:51:47.670390+00:00",
+        "updated_at": "2026-02-18T06:18:29.532018+00:00",
+        "completed_at": null
+    },
+    {
+        "id": "f394d26d-5694-4833-a250-abdf2406a1f9",
+        "title": "Design TaskManager service",
+        "description": "Separate business logic from CLI",
+        "status": "PENDING",
+        "priority": "MEDIUM",
+        "created_at": "2026-02-18T05:52:28.345888+00:00",
+        "updated_at": "2026-02-18T05:52:28.345888+00:00",
+        "completed_at": null
+    },
+    {
+        "id": "f9834466-afdc-468c-a9de-2a37f7c0f647",
+        "title": "Write README",
+        "description": "Document commands and usage",
+        "status": "PENDING",
+        "priority": "MEDIUM",
+        "created_at": "2026-02-18T05:54:30.550712+00:00",
+        "updated_at": "2026-02-18T05:54:30.550712+00:00",
+        "completed_at": null
+    },
+    {
+        "id": "a5f080e0-15e1-4335-9bfc-b052786e0f67",
+        "title": "Add complete_task feature",
+        "description": "Allow marking tasks as done",
+        "status": "COMPLETED",
+        "priority": "MEDIUM",
+        "created_at": "2026-02-18T05:58:43.568638+00:00",
+        "updated_at": "2026-02-18T06:26:36.469276+00:00",
+        "completed_at": "2026-02-18T06:26:36.469276+00:00"
+    },
+    {
+        "id": "8fef0cd0-17fb-41fd-8730-f2d8c0554059",
+        "title": "Write unit tests",
+        "description": "for your Task and TaskManager classes.",
+        "status": "PENDING",
+        "priority": "LOW",
+        "created_at": "2026-02-18T07:19:01.014691+00:00",
+        "updated_at": "2026-02-18T07:19:01.014691+00:00",
+        "completed_at": null
+    }
+]
