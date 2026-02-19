@@ -66,7 +66,7 @@ class Task:
 
     def update_description(self,description):
         # if not description or description.strip():
-        #     raise ValueError("Title cannot be empty.")
+        #     raise ValueError("Description cannot be empty.")
         
         self.description = description
         self._updated_at = datetime.now(timezone.utc)
