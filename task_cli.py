@@ -71,20 +71,20 @@ def main():
             priority
         )
 
-        print("🆕 Task created:", task.id)
+        print("Task created Successfully:", task.id)
 
     elif args.command == "get":
 
         try:
             task = manager.get_task(args.task_id)
             print(f"\n{task.priority.value}  {task.status.value}")
-            print(f"📌 {task.title}")
-            print(f"🆔 {task.id}")
+            print(f"{task.title}")
+            print(f"{task.id}")
             print(f"{task.description}")
             print(end="\n")
 
         except KeyError:
-            print("❌ Task not found:", args.task_id)
+            print("Task not found:", args.task_id)
 
     elif args.command == "sort":
          
@@ -95,8 +95,8 @@ def main():
 
               for task in tasks:
                 print(f"\n{task.priority.value}  {task.status.value}")
-                print(f"📌 {task.title}")
-                print(f"🆔 {task.id}")
+                print(f"{task.title}")
+                print(f"{task.id}")
                 print(f"{task.description}")
                 print(end="\n")
 
@@ -105,8 +105,8 @@ def main():
 
              for task in tasks:
                 print(f"\n{task.priority.value}  {task.status.value}")
-                print(f"📌 {task.title}")
-                print(f"🆔 {task.id}")
+                print(f"{task.title}")
+                print(f"{task.id}")
                 print(f"{task.description}")
                 print(end="\n")
              
@@ -117,25 +117,25 @@ def main():
         # print(len(tasks))
 
         if args.status == "pending":
-            filtered_tasks = [task for task in tasks if task.status.value == "⏳ pending"]
+            filtered_tasks = [task for task in tasks if task.status.value == "pending"]
 
             # print(len(filtered_tasks))
             
 
             for task in filtered_tasks:
                 print(f"\n{task.priority.value}  {task.status.value}")
-                print(f"📌 {task.title}")
-                print(f"🆔 {task.id}")
+                print(f"{task.title}")
+                print(f"{task.id}")
                 print(f"{task.description}")
                 print(end="\n")
 
         elif args.status == "completed":
-            filtered_tasks = [task for task in tasks if task.status.value == "✅ completed"]
+            filtered_tasks = [task for task in tasks if task.status.value == "completed"]
 
             for task in filtered_tasks:
                 print(f"\n{task.priority.value}  {task.status.value}")
-                print(f"📌 {task.title}")
-                print(f"🆔 {task.id}")
+                print(f"{task.title}")
+                print(f"{task.id}")
                 print(f"{task.description}")
                 print(end="\n")
 
@@ -143,15 +143,15 @@ def main():
 
         tasks = manager.get_all_tasks()
 
-        print(f"📋 Total tasks: {len(tasks)}\n")
+        print(f"Total tasks: {len(tasks)}\n")
 
         if not tasks:
-            print("📋 No tasks found.")
+            print("No tasks found.")
 
         for task in tasks:
             print(f"\n{task.priority.value}  {task.status.value}")
-            print(f"📌 {task.title}")
-            print(f"🆔 {task.id}")
+            print(f"{task.title}")
+            print(f"{task.id}")
             print(f"{task.description}")
             print(end="\n")
 
@@ -167,15 +167,15 @@ def main():
               priority
          )
 
-         print("✏️ Task updated")
+         print("Task updated Successfully")
 
     elif args.command == "complete":
          manager.complete_task(args.task_id)
-         print("✅ Task marked as completed")
+         print("Task marked as completed")
 
     elif args.command == "delete":
             manager.delete_task(args.task_id)
-            print("🗑️ Task deleted")
+            print("Task deleted")
 
     else:
          parser.print_help()
