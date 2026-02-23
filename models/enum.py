@@ -1,10 +1,10 @@
 from enum import Enum
 
 class Status(Enum):
-    PENDING = "pending"
-    COMPLETED = "completed"
+    PENDING = "PENDING"
+    COMPLETED = "COMPLETED"
 
 class Priority(Enum):
-    LOW = "low"
-    MEDIUM = "medium"
-    HIGH = "high"
+    LOW = "LOW"
+    MEDIUM = "MEDIUM"
+    HIGH = "HIGH"

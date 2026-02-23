@@ -12,39 +12,31 @@ def build_parser():
 
     subparsers = parser.add_subparsers(dest="command")
 
-    # add command
     add = subparsers.add_parser("add", help="add a new task")
     add.add_argument("--title", help="title of the task")
     add.add_argument("--description", help="description of the task")
     add.add_argument("--priority", help="priority of the task", choices=["low","medium","high"])
 
-    # list command 
     list = subparsers.add_parser("list", help="list all tasks")
 
-    # get command
     get = subparsers.add_parser("get", help="get a task by id")
     get.add_argument("task_id", help="id of the task to retrieve")
 
-    # sort command
     sort = subparsers.add_parser("sort", help="sort tasks by priority or created_at")
     sort.add_argument("sort", help="sort order by [priority, created_at]", choices=["priority","created_at"], default="created_at")
 
-    # status command
     status_filter = subparsers.add_parser("status_filter", help="filter tasks by status")
     status_filter.add_argument("status", help="status to filter by", choices=["pending", "completed"])
 
-    # update command
     update = subparsers.add_parser("update", help="update a task")
     update.add_argument("task_id", help="id of the task to update")
     update.add_argument("--title", help="new title of the task")
     update.add_argument("--description", help="new description of the task")
     update.add_argument("--priority", help="new priority of the task", choices=["low", "medium", "high"])
     
-    # complete command
     complete = subparsers.add_parser("complete", help="mark a task as completed")
     complete.add_argument("task_id", help="id of the task to mark as completed")
 
-    # delete command
     delete = subparsers.add_parser("delete", help="delete a task")
     delete.add_argument("task_id", help="id of the task to delete")
 
@@ -78,9 +70,9 @@ def main():
         try:
             task = manager.get_task(args.task_id)
             print(f"\n{task.priority.value}  {task.status.value}")
-            print(f"{task.title}")
-            print(f"{task.id}")
-            print(f"{task.description}")
+            print(f"Title: {task.title}")
+            print(f"Task ID: {task.id}")
+            print(f"Description: {task.description}")
             print(end="\n")
 
         except KeyError:
@@ -91,13 +83,18 @@ def main():
         tasks = manager.get_all_tasks()
 
         if args.sort == "priority":
-              tasks.sort(key=lambda x:x.priority.value)
+              PRIORITY_ORDER = {
+                     "HIGH": 1,
+                     "MEDIUM": 2,
+                     "LOW": 3
+              }
+              tasks.sort(key=lambda x:PRIORITY_ORDER[x.priority.value])
 
               for task in tasks:
                 print(f"\n{task.priority.value}  {task.status.value}")
-                print(f"{task.title}")
-                print(f"{task.id}")
-                print(f"{task.description}")
+                print(f"Title: {task.title}")
+                print(f"Task ID: {task.id}")
+                print(f"Description: {task.description}")
                 print(end="\n")
 
         elif args.sort == "created_at":
@@ -105,9 +102,9 @@ def main():
 
              for task in tasks:
                 print(f"\n{task.priority.value}  {task.status.value}")
-                print(f"{task.title}")
-                print(f"{task.id}")
-                print(f"{task.description}")
+                print(f"Title: {task.title}")
+                print(f"Task ID: {task.id}")
+                print(f"Description: {task.description}")
                 print(end="\n")
              
 
@@ -116,27 +113,27 @@ def main():
 
         # print(len(tasks))
 
-        if args.status == "pending":
-            filtered_tasks = [task for task in tasks if task.status.value == "pending"]
+        if args.status == "PENDING" or args.status == "pending":
+            filtered_tasks = [task for task in tasks if task.status.value == "PENDING"]
 
             # print(len(filtered_tasks))
             
 
             for task in filtered_tasks:
                 print(f"\n{task.priority.value}  {task.status.value}")
-                print(f"{task.title}")
-                print(f"{task.id}")
-                print(f"{task.description}")
+                print(f"Title: {task.title}")
+                print(f"Task ID: {task.id}")
+                print(f"Description: {task.description}")
                 print(end="\n")
 
-        elif args.status == "completed":
-            filtered_tasks = [task for task in tasks if task.status.value == "completed"]
+        elif args.status == "COMPLETED" or args.status == "completed":
+            filtered_tasks = [task for task in tasks if task.status.value == "COMPLETED"]
 
             for task in filtered_tasks:
                 print(f"\n{task.priority.value}  {task.status.value}")
-                print(f"{task.title}")
-                print(f"{task.id}")
-                print(f"{task.description}")
+                print(f"Title: {task.title}")
+                print(f"Task ID: {task.id}")
+                print(f"Description: {task.description}")
                 print(end="\n")
 
     elif args.command == "list":
@@ -150,9 +147,9 @@ def main():
 
         for task in tasks:
             print(f"\n{task.priority.value}  {task.status.value}")
-            print(f"{task.title}")
-            print(f"{task.id}")
-            print(f"{task.description}")
+            print(f"Title: {task.title}")
+            print(f"Task ID: {task.id}")
+            print(f"Description: {task.description}")
             print(end="\n")
 
         
@@ -175,7 +172,7 @@ def main():
 
     elif args.command == "delete":
             manager.delete_task(args.task_id)
-            print("Task deleted")
+            print("Task deleted Successfully")
 
     else:
          parser.print_help()
