@@ -1,26 +1,26 @@
-# 🧠 CLI Task Manager (Python+Git)
+# CLI Task Manager (Python+Git)
 
 A simple, fast, and structured **Command Line Task Manager** built with Python.
 This project demonstrates clean architecture, object-oriented design, persistence, and CLI tooling.
 
 ---
 
-## 🚀 Features
+## Features
 
-✅ Create tasks
-✅ Update tasks
-✅ Delete tasks
-✅ Mark tasks as completed
-✅ Filter tasks by status
-✅ Sort tasks by priority or created_at
-✅ View a single task
-✅ List all tasks
-✅ Persistent storage using JSON
-✅ Clean CLI powered by `argparse`
+Create tasks
+Update tasks
+Delete tasks
+Mark tasks as completed
+Filter tasks by status
+Sort tasks by priority or created_at
+View a single task
+List all tasks
+Persistent storage using JSON
+Clean CLI powered by `argparse`
 
 ---
 
-## 🏗️ Project Architecture
+## Project Architecture
 
 ```
 task_manager_cli/
@@ -34,14 +34,14 @@ task_manager_cli/
 
 **Design Principle Used:**
 
-👉 Separation of Concerns
-👉 Encapsulation
-👉 Lifecycle-aware models
-👉 Service-based architecture
+Separation of Concerns
+Encapsulation
+Lifecycle-aware models
+Service-based architecture
 
 ---
 
-## ⚙️ Installation
+## Installation
 
 ### 1. Clone the repository
 
@@ -72,7 +72,7 @@ source .venv/bin/activate
 
 ---
 
-## ▶️ How to Run
+## How to Run
 
 ```
 python task_cli.py --help
@@ -80,9 +80,9 @@ python task_cli.py --help
 
 ---
 
-## 💻 CLI Usage
+## CLI Usage
 
-### ✅ Add Task
+###  Add Task
 
 ```
 python task_cli.py add --title "Build CLI tool" --description "Using argparse" --priority high
@@ -90,7 +90,7 @@ python task_cli.py add --title "Build CLI tool" --description "Using argparse" -
 
 ---
 
-### ✅ List Tasks
+###  List Tasks
 
 ```
 python task_cli.py list
@@ -98,7 +98,7 @@ python task_cli.py list
 
 ---
 
-### ✅ Get One Task
+###  Get One Task
 
 ```
 python task_cli.py get <task_id>
@@ -106,7 +106,7 @@ python task_cli.py get <task_id>
 
 ---
 
-### ✅ Complete Task
+###  Complete Task
 
 ```
 python task_cli.py complete <task_id>
@@ -114,7 +114,7 @@ python task_cli.py complete <task_id>
 
 ---
 
-### ✅ Update Task
+###  Update Task
 
 ```
 python task_cli.py update <task_id> --title "New Title" --description "New description" --priority low
@@ -131,7 +131,7 @@ python task_cli.py update <task_id> --priority medium
 
 ---
 
-### ✅ Delete Task
+###  Delete Task
 
 ```
 python task_cli.py delete <task_id>
@@ -139,7 +139,7 @@ python task_cli.py delete <task_id>
 
 ---
 
-### ✅ Filter by Status
+###  Filter by Status
 
 ```
 python task_cli.py status_filter pending
@@ -148,7 +148,7 @@ python task_cli.py status_filter pending
 
 ---
 
-### ✅ Sort by Priority or created_at
+###  Sort by Priority or created_at
 
 ```
 python task_cli.py sort priority
@@ -160,7 +160,7 @@ python task_cli.py sort created_at
 
 ---
 
-## 🧪 What This Project Demonstrates
+##  What This Project Demonstrates
 
 This is **not just a CRUD app.**
 
@@ -177,7 +177,7 @@ It showcases understanding of:
 
 ---
 
-## 🎯 Future Improvements
+##  Future Improvements
 
 * Search tasks
 * Due dates
@@ -188,6 +188,6 @@ It showcases understanding of:
 
 ---
 
-## 👨‍💻 Author
+##  Author
 
 Built as a demo project to strengthen backend engineering fundamentals and CLI design skills.
