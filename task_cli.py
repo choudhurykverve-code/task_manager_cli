@@ -1,3 +1,4 @@
+import sys
 import argparse
 from models.enum import Priority
 from services.task_manager import TaskManager
@@ -13,7 +14,7 @@ def build_parser():
     subparsers = parser.add_subparsers(dest="command")
 
     add = subparsers.add_parser("add", help="add a new task")
-    add.add_argument("--title", help="title of the task")
+    add.add_argument("--title", required=True, help="title of the task")
     add.add_argument("--description", help="description of the task")
     add.add_argument("--priority", help="priority of the task", choices=["low","medium","high"])
 
@@ -43,44 +44,60 @@ def build_parser():
     return parser
 
 
+def print_task(task):
+    print(f"\n{task.priority.value}  {task.status.value}")
+    print(f"Title: {task.title}")
+    print(f"Task ID: {task.id}")
+    print(f"Description: {task.description}")
+    print(end="\n")
+
 
 def main():
 
     parser = build_parser()
     args = parser.parse_args()
 
-    storage = JsonStorage("./data/tasks.json")
-    manager = TaskManager(storage)
-
+    try:
+        storage = JsonStorage("./data/tasks.json")
+        manager = TaskManager(storage)
+    except Exception as e:
+        print(f"Error: Failed to initialize task storage: {e}", file=sys.stderr)
+        sys.exit(1)
 
     if args.command == "add":
 
         priority = Priority[args.priority.upper()] if args.priority else Priority.MEDIUM
 
-        task = manager.add_task(
-            args.title,
-            args.description,
-            priority
-        )
-
-        print("Task created Successfully:", task.id)
+        try:
+            task = manager.add_task(
+                args.title,
+                args.description,
+                priority
+            )
+            print("Task created Successfully:", task.id)
+        except ValueError as e:
+            print(f"Error: {e}", file=sys.stderr)
+            sys.exit(1)
+        except OSError as e:
+            print(f"Error: Could not save task: {e}", file=sys.stderr)
+            sys.exit(1)
 
     elif args.command == "get":
 
         try:
             task = manager.get_task(args.task_id)
-            print(f"\n{task.priority.value}  {task.status.value}")
-            print(f"Title: {task.title}")
-            print(f"Task ID: {task.id}")
-            print(f"Description: {task.description}")
-            print(end="\n")
-
+            print_task(task)
         except KeyError:
-            print("Task not found:", args.task_id)
+            print(f"Error: Task not found: {args.task_id}", file=sys.stderr)
+            sys.exit(1)
 
     elif args.command == "sort":
          
         tasks = manager.get_all_tasks()
+
+        if not tasks:
+            print("No tasks found.")
+            return
 
         if args.sort == "priority":
               PRIORITY_ORDER = {
@@ -90,51 +107,24 @@ def main():
               }
               tasks.sort(key=lambda x:PRIORITY_ORDER[x.priority.value])
 
-              for task in tasks:
-                print(f"\n{task.priority.value}  {task.status.value}")
-                print(f"Title: {task.title}")
-                print(f"Task ID: {task.id}")
-                print(f"Description: {task.description}")
-                print(end="\n")
-
         elif args.sort == "created_at":
              tasks.sort(key=lambda x:x.created_at)
 
-             for task in tasks:
-                print(f"\n{task.priority.value}  {task.status.value}")
-                print(f"Title: {task.title}")
-                print(f"Task ID: {task.id}")
-                print(f"Description: {task.description}")
-                print(end="\n")
-             
+        for task in tasks:
+            print_task(task)
 
     elif args.command == "status_filter":
         tasks = manager.get_all_tasks()
 
-        # print(len(tasks))
+        status_value = args.status.upper()
+        filtered_tasks = [task for task in tasks if task.status.value == status_value]
 
-        if args.status == "PENDING" or args.status == "pending":
-            filtered_tasks = [task for task in tasks if task.status.value == "PENDING"]
+        if not filtered_tasks:
+            print(f"No tasks with status '{args.status}'.")
+            return
 
-            # print(len(filtered_tasks))
-            
-
-            for task in filtered_tasks:
-                print(f"\n{task.priority.value}  {task.status.value}")
-                print(f"Title: {task.title}")
-                print(f"Task ID: {task.id}")
-                print(f"Description: {task.description}")
-                print(end="\n")
-
-        elif args.status == "COMPLETED" or args.status == "completed":
-            filtered_tasks = [task for task in tasks if task.status.value == "COMPLETED"]
-
-            for task in filtered_tasks:
-                print(f"\n{task.priority.value}  {task.status.value}")
-                print(f"Title: {task.title}")
-                print(f"Task ID: {task.id}")
-                print(f"Description: {task.description}")
-                print(end="\n")
+        for task in filtered_tasks:
+            print_task(task)
 
     elif args.command == "list":
 
@@ -146,33 +136,54 @@ def main():
             print("No tasks found.")
 
         for task in tasks:
-            print(f"\n{task.priority.value}  {task.status.value}")
-            print(f"Title: {task.title}")
-            print(f"Task ID: {task.id}")
-            print(f"Description: {task.description}")
-            print(end="\n")
-
-        
+            print_task(task)
 
     elif args.command == "update":
          
-         priority = Priority[args.priority.upper()] if args.priority else Priority.MEDIUM
-         manager.update_task(
-              args.task_id,
-              args.title,
-              args.description,
-              priority
-         )
+         priority = Priority[args.priority.upper()] if args.priority else None
 
-         print("Task updated Successfully")
+         try:
+             manager.update_task(
+                  args.task_id,
+                  args.title,
+                  args.description,
+                  priority
+             )
+             print("Task updated Successfully")
+         except KeyError:
+             print(f"Error: Task not found: {args.task_id}", file=sys.stderr)
+             sys.exit(1)
+         except ValueError as e:
+             print(f"Error: {e}", file=sys.stderr)
+             sys.exit(1)
+         except OSError as e:
+             print(f"Error: Could not save task: {e}", file=sys.stderr)
+             sys.exit(1)
 
     elif args.command == "complete":
-         manager.complete_task(args.task_id)
-         print("Task marked as completed")
+         try:
+             manager.complete_task(args.task_id)
+             print("Task marked as completed")
+         except KeyError:
+             print(f"Error: Task not found: {args.task_id}", file=sys.stderr)
+             sys.exit(1)
+         except ValueError as e:
+             print(f"Error: {e}", file=sys.stderr)
+             sys.exit(1)
+         except OSError as e:
+             print(f"Error: Could not save task: {e}", file=sys.stderr)
+             sys.exit(1)
 
     elif args.command == "delete":
-            manager.delete_task(args.task_id)
-            print("Task deleted Successfully")
+         try:
+             manager.delete_task(args.task_id)
+             print("Task deleted Successfully")
+         except KeyError:
+             print(f"Error: Task not found: {args.task_id}", file=sys.stderr)
+             sys.exit(1)
+         except OSError as e:
+             print(f"Error: Could not save task: {e}", file=sys.stderr)
+             sys.exit(1)
 
     else:
          parser.print_help()
