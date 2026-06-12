@@ -65,9 +65,6 @@ class Task:
 
 
     def update_description(self,description):
-        # if not description or description.strip():
-        #     raise ValueError("Description cannot be empty.")
-        
         self.description = description
         self._updated_at = datetime.now(timezone.utc)
 
@@ -93,20 +90,57 @@ class Task:
     
     @classmethod
     def from_dict(cls,data):
+        required_keys = ("id", "title", "status", "priority", "created_at", "updated_at")
+        missing = [k for k in required_keys if k not in data]
+        if missing:
+            raise ValueError(f"Task data is missing required fields: {', '.join(missing)}")
+
+        try:
+            priority = Priority[data["priority"]]
+        except KeyError:
+            raise ValueError(
+                f"Invalid priority '{data['priority']}'. "
+                f"Expected one of: {', '.join(p.name for p in Priority)}"
+            )
+
+        try:
+            status = Status[data["status"]]
+        except KeyError:
+            raise ValueError(
+                f"Invalid status '{data['status']}'. "
+                f"Expected one of: {', '.join(s.name for s in Status)}"
+            )
+
         task = cls(
             title = data["title"],
             description = data.get("description"),
-            priority=Priority[data["priority"]]
+            priority=priority
         )
 
-        task._id =  uuid.UUID(data["id"])
-        task._status = Status[data["status"]]
-        task._created_at = datetime.fromisoformat(data["created_at"])
-        task._updated_at = datetime.fromisoformat(data["updated_at"])
-        task._completed_at = (
-            datetime.fromisoformat(data["completed_at"])
-            if data["completed_at"]
-            else None
-        )
+        try:
+            task._id = uuid.UUID(data["id"])
+        except ValueError:
+            raise ValueError(f"Invalid task ID '{data['id']}': not a valid UUID")
+
+        task._status = status
+
+        try:
+            task._created_at = datetime.fromisoformat(data["created_at"])
+        except (ValueError, TypeError) as e:
+            raise ValueError(f"Invalid created_at timestamp: {e}")
+
+        try:
+            task._updated_at = datetime.fromisoformat(data["updated_at"])
+        except (ValueError, TypeError) as e:
+            raise ValueError(f"Invalid updated_at timestamp: {e}")
+
+        completed_at = data.get("completed_at")
+        if completed_at:
+            try:
+                task._completed_at = datetime.fromisoformat(completed_at)
+            except (ValueError, TypeError) as e:
+                raise ValueError(f"Invalid completed_at timestamp: {e}")
+        else:
+            task._completed_at = None
 
         return task   
