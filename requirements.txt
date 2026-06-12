@@ -1,1 +1,2 @@
-pathlib==1.0.1
+# No external dependencies required.
+# pathlib is part of the Python 3 standard library.
