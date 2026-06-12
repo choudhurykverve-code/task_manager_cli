@@ -1,7 +1,9 @@
 import argparse
-from models.enum import Priority
 from services.task_manager import TaskManager
 from storage.json_storage import JsonStorage
+from utils.display import print_task, print_task_list
+from utils.parsers import parse_priority
+from utils.sorting import sort_by_priority, sort_by_created_at
 
 def build_parser():
 
@@ -55,7 +57,7 @@ def main():
 
     if args.command == "add":
 
-        priority = Priority[args.priority.upper()] if args.priority else Priority.MEDIUM
+        priority = parse_priority(args.priority)
 
         task = manager.add_task(
             args.title,
@@ -69,11 +71,7 @@ def main():
 
         try:
             task = manager.get_task(args.task_id)
-            print(f"\n{task.priority.value}  {task.status.value}")
-            print(f"Title: {task.title}")
-            print(f"Task ID: {task.id}")
-            print(f"Description: {task.description}")
-            print(end="\n")
+            print_task(task)
 
         except KeyError:
             print("Task not found:", args.task_id)
@@ -83,80 +81,30 @@ def main():
         tasks = manager.get_all_tasks()
 
         if args.sort == "priority":
-              PRIORITY_ORDER = {
-                     "HIGH": 1,
-                     "MEDIUM": 2,
-                     "LOW": 3
-              }
-              tasks.sort(key=lambda x:PRIORITY_ORDER[x.priority.value])
+            sorted_tasks = sort_by_priority(tasks)
+        else:
+            sorted_tasks = sort_by_created_at(tasks)
 
-              for task in tasks:
-                print(f"\n{task.priority.value}  {task.status.value}")
-                print(f"Title: {task.title}")
-                print(f"Task ID: {task.id}")
-                print(f"Description: {task.description}")
-                print(end="\n")
-
-        elif args.sort == "created_at":
-             tasks.sort(key=lambda x:x.created_at)
-
-             for task in tasks:
-                print(f"\n{task.priority.value}  {task.status.value}")
-                print(f"Title: {task.title}")
-                print(f"Task ID: {task.id}")
-                print(f"Description: {task.description}")
-                print(end="\n")
-             
+        print_task_list(sorted_tasks)
 
     elif args.command == "status_filter":
         tasks = manager.get_all_tasks()
-
-        # print(len(tasks))
-
-        if args.status == "PENDING" or args.status == "pending":
-            filtered_tasks = [task for task in tasks if task.status.value == "PENDING"]
-
-            # print(len(filtered_tasks))
-            
-
-            for task in filtered_tasks:
-                print(f"\n{task.priority.value}  {task.status.value}")
-                print(f"Title: {task.title}")
-                print(f"Task ID: {task.id}")
-                print(f"Description: {task.description}")
-                print(end="\n")
-
-        elif args.status == "COMPLETED" or args.status == "completed":
-            filtered_tasks = [task for task in tasks if task.status.value == "COMPLETED"]
-
-            for task in filtered_tasks:
-                print(f"\n{task.priority.value}  {task.status.value}")
-                print(f"Title: {task.title}")
-                print(f"Task ID: {task.id}")
-                print(f"Description: {task.description}")
-                print(end="\n")
+        filtered_tasks = [
+            task for task in tasks
+            if task.status.value == args.status.upper()
+        ]
+        print_task_list(filtered_tasks)
 
     elif args.command == "list":
 
         tasks = manager.get_all_tasks()
 
         print(f"Total tasks: {len(tasks)}\n")
-
-        if not tasks:
-            print("No tasks found.")
-
-        for task in tasks:
-            print(f"\n{task.priority.value}  {task.status.value}")
-            print(f"Title: {task.title}")
-            print(f"Task ID: {task.id}")
-            print(f"Description: {task.description}")
-            print(end="\n")
-
-        
+        print_task_list(tasks)
 
     elif args.command == "update":
          
-         priority = Priority[args.priority.upper()] if args.priority else Priority.MEDIUM
+         priority = parse_priority(args.priority)
          manager.update_task(
               args.task_id,
               args.title,
